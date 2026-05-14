@@ -25,28 +25,6 @@ function navigate(page) {
   if (page === 'practice') loadPractice();
 }
 
-function toggleAuthMode() {
-  const mode = document.getElementById('auth-mode');
-  const login = document.getElementById('auth-login');
-  const reg = document.getElementById('auth-register');
-  const title = document.getElementById('auth-title');
-  const err = document.getElementById('auth-error');
-  err.textContent = '';
-  err.style.color = '#f87171';
-
-  if (mode.textContent === 'Register') {
-    mode.textContent = 'Login';
-    login.style.display = 'none';
-    reg.style.display = 'block';
-    title.textContent = 'Create Account';
-  } else {
-    mode.textContent = 'Register';
-    login.style.display = 'block';
-    reg.style.display = 'none';
-    title.textContent = 'Welcome Back';
-  }
-}
-
 // Auth state listener
 _sb.auth.onAuthStateChange(async (event, session) => {
   if (event === 'SIGNED_IN' && session) {

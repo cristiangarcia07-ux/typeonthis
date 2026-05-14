@@ -106,7 +106,7 @@ BEGIN
   INSERT INTO users (id, username)
   VALUES (
     NEW.id,
-    COALESCE(NEW.raw_user_meta_data->>'username', split_part(NEW.email, '@', 1))
+    COALESCE(NEW.raw_user_meta_data->>'username', NEW.raw_user_meta_data->>'user_name', split_part(NEW.email, '@', 1))
   );
   INSERT INTO user_stats (user_id) VALUES (NEW.id);
   INSERT INTO daily_leaderboard (user_id) VALUES (NEW.id);
