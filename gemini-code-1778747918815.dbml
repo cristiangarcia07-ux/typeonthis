@@ -1,0 +1,68 @@
+// Corrected DBML with Authentication & Security
+
+Enum match_mode {
+  solo
+  race
+  timed
+}
+
+Table users {
+  id serial [primary key]
+  username varchar(50) [unique, not null]
+  email varchar(255) [unique, not null]
+  password_hash varchar(255) [not null]
+  total_xp integer [default: 0]
+  created_at timestamp [default: `now()`]
+  updated_at timestamp [default: `now()`]
+}
+
+Table sessions {
+  id uuid [primary key, default: `gen_random_uuid()`]
+  user_id integer [not null]
+  token varchar(512) [unique, not null]
+  expires_at timestamp [not null]
+  created_at timestamp [default: `now()`]
+}
+
+Table matches {
+  id serial [primary key]
+  mode match_mode [not null]
+  quote_id integer [not null]
+  created_by integer [not null]
+  started_at timestamp [default: `now()`]
+  ended_at timestamp
+}
+
+Table quotes {
+  id serial [primary key]
+  content text [not null]
+  difficulty_rating decimal(3, 2) [not null]
+  created_at timestamp [default: `now()`]
+}
+
+Table match_participants {
+  match_id integer [not null]
+  user_id integer [not null]
+  wpm decimal(6, 2) [not null]
+  accuracy decimal(5, 2) [not null]
+  rank integer [not null]
+
+  Indexes {
+    (match_id, user_id) [unique]
+  }
+}
+
+Table user_stats {
+  user_id integer [primary key]
+  average_wpm decimal(6, 2) [default: 0]
+  top_wpm decimal(6, 2) [default: 0]
+  matches_played integer [default: 0]
+}
+
+// Relationships
+Ref: sessions.user_id > users.id [delete: cascade]
+Ref: matches.quote_id > quotes.id [delete: restrict]
+Ref: matches.created_by > users.id [delete: cascade]
+Ref: match_participants.match_id > matches.id [delete: cascade]
+Ref: match_participants.user_id > users.id [delete: cascade]
+Ref: user_stats.user_id - users.id [delete: cascade]

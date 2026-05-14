@@ -1,0 +1,141 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background: #0f172a;
+  color: #e2e8f0;
+  min-height: 100vh;
+}
+
+/* Nav */
+nav {
+  background: #1e293b;
+  padding: 1rem 2rem;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  border-bottom: 1px solid #334155;
+}
+
+nav .brand { font-weight: 700; font-size: 1.25rem; color: #38bdf8; }
+nav a { color: #94a3b8; text-decoration: none; font-size: 0.9rem; }
+nav a:hover, nav a.active { color: #38bdf8; }
+nav .spacer { flex: 1; }
+nav .user-info { font-size: 0.85rem; color: #94a3b8; }
+nav button {
+  background: transparent; border: 1px solid #475569; color: #e2e8f0;
+  padding: 0.4rem 1rem; border-radius: 6px; cursor: pointer; font-size: 0.85rem;
+}
+nav button:hover { background: #334155; }
+
+/* Pages */
+.page { display: none; padding: 2rem; max-width: 900px; margin: 0 auto; }
+.page.active { display: block; }
+
+/* Auth */
+.auth-container {
+  max-width: 400px; margin: 4rem auto; text-align: center;
+}
+.auth-container h1 { margin-bottom: 0.5rem; }
+.auth-container .subtitle { color: #94a3b8; margin-bottom: 2rem; }
+.auth-box { background: #1e293b; padding: 2rem; border-radius: 12px; border: 1px solid #334155; }
+.auth-box h2 { margin-bottom: 1.5rem; }
+.auth-box input {
+  width: 100%; padding: 0.75rem; margin-bottom: 1rem;
+  background: #0f172a; border: 1px solid #334155; border-radius: 6px;
+  color: #e2e8f0; font-size: 1rem;
+}
+.auth-box input:focus { outline: none; border-color: #38bdf8; }
+.auth-box .btn {
+  width: 100%; padding: 0.75rem; background: #38bdf8; color: #0f172a;
+  border: none; border-radius: 6px; font-size: 1rem; font-weight: 600;
+  cursor: pointer;
+}
+.auth-box .btn:hover { background: #7dd3fc; }
+.auth-box .error { color: #f87171; margin-top: 0.5rem; font-size: 0.85rem; }
+.auth-box .switch { margin-top: 1rem; color: #94a3b8; font-size: 0.85rem; }
+.auth-box .switch a { color: #38bdf8; cursor: pointer; }
+
+/* Practice */
+.practice-header { text-align: center; margin-bottom: 2rem; }
+.practice-header .wpm-big { font-size: 3rem; font-weight: 700; color: #38bdf8; }
+.practice-header .stats-row { display: flex; justify-content: center; gap: 2rem; margin-top: 1rem; }
+.practice-header .stats-row span { color: #94a3b8; }
+.practice-header .stats-row strong { color: #e2e8f0; }
+
+.quote-box {
+  background: #1e293b; padding: 2rem; border-radius: 12px;
+  border: 1px solid #334155; font-size: 1.25rem; line-height: 1.8;
+  margin-bottom: 1.5rem; min-height: 120px;
+}
+.quote-box .char { transition: color 0.1s; }
+.quote-box .char.correct { color: #22c55e; }
+.quote-box .char.incorrect { color: #ef4444; text-decoration: underline; }
+.quote-box .char.current { background: #334155; border-radius: 2px; }
+
+#practice-input {
+  width: 100%; padding: 1rem; font-size: 1rem;
+  background: #0f172a; border: 1px solid #334155; border-radius: 6px;
+  color: #e2e8f0; resize: none; font-family: inherit;
+}
+#practice-input:focus { outline: none; border-color: #38bdf8; }
+
+.practice-controls { display: flex; gap: 1rem; margin-top: 1rem; justify-content: center; }
+.practice-controls .btn {
+  padding: 0.6rem 1.5rem; background: #38bdf8; color: #0f172a;
+  border: none; border-radius: 6px; font-weight: 600; cursor: pointer;
+}
+.practice-controls .btn:hover { background: #7dd3fc; }
+.practice-controls .btn.secondary { background: #334155; color: #e2e8f0; }
+.practice-controls .btn.secondary:hover { background: #475569; }
+
+/* Results overlay */
+.results-overlay {
+  display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7);
+  align-items: center; justify-content: center; z-index: 100;
+}
+.results-overlay.show { display: flex; }
+.results-card {
+  background: #1e293b; padding: 2.5rem; border-radius: 16px;
+  text-align: center; border: 1px solid #334155; min-width: 320px;
+}
+.results-card h2 { margin-bottom: 1.5rem; }
+.results-card .result-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem; }
+.results-card .result-item { background: #0f172a; padding: 1rem; border-radius: 8px; }
+.results-card .result-item .label { font-size: 0.75rem; color: #94a3b8; text-transform: uppercase; }
+.results-card .result-item .value { font-size: 1.5rem; font-weight: 700; color: #38bdf8; margin-top: 0.25rem; }
+.results-card .btn { padding: 0.75rem 2rem; background: #38bdf8; color: #0f172a; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; }
+.results-card .btn:hover { background: #7dd3fc; }
+
+/* Dashboard */
+.dashboard-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; margin-top: 2rem; }
+.stat-card { background: #1e293b; padding: 1.5rem; border-radius: 12px; border: 1px solid #334155; }
+.stat-card h3 { color: #94a3b8; font-size: 0.85rem; text-transform: uppercase; margin-bottom: 0.5rem; }
+.stat-card .value { font-size: 2rem; font-weight: 700; color: #38bdf8; }
+.stat-card .value.green { color: #22c55e; }
+.stat-card .value.purple { color: #a78bfa; }
+
+/* Leaderboard */
+.leaderboard-table { width: 100%; border-collapse: collapse; margin-top: 1.5rem; }
+.leaderboard-table th {
+  text-align: left; padding: 0.75rem 1rem; color: #94a3b8;
+  border-bottom: 1px solid #334155; font-size: 0.8rem; text-transform: uppercase;
+}
+.leaderboard-table td { padding: 0.75rem 1rem; border-bottom: 1px solid #1e293b; }
+.leaderboard-table tr:hover td { background: #1e293b; }
+.leaderboard-table .rank { font-weight: 700; color: #38bdf8; }
+.leaderboard-table .rank-1 { color: #fbbf24; }
+.leaderboard-table .rank-2 { color: #94a3b8; }
+.leaderboard-table .rank-3 { color: #d97706; }
+
+/* Tabs */
+.tabs { display: flex; gap: 0; margin-bottom: 1.5rem; background: #1e293b; border-radius: 8px; overflow: hidden; width: fit-content; }
+.tabs .tab { padding: 0.6rem 1.5rem; cursor: pointer; color: #94a3b8; border: none; background: transparent; font-size: 0.9rem; }
+.tabs .tab.active { background: #38bdf8; color: #0f172a; font-weight: 600; }
+
+/* Loading */
+.loading { text-align: center; color: #94a3b8; padding: 2rem; }
+
+/* Page titles */
+.page h1 { font-size: 1.5rem; }
+.page .desc { color: #94a3b8; margin-top: 0.25rem; margin-bottom: 1.5rem; }

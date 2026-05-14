@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TypeRacer Lite</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<!-- ===== AUTH PAGE ===== -->
+<div id="auth-page" class="page active">
+  <div class="auth-container">
+    <h1>⌨️ TypeRacer Lite</h1>
+    <p class="subtitle">Practice typing, track your speed</p>
+    <div class="auth-box">
+      <h2 id="auth-title">Welcome Back</h2>
+
+      <div id="auth-login">
+        <input type="email" id="login-email" placeholder="Email" autocomplete="email" />
+        <input type="password" id="login-password" placeholder="Password" autocomplete="current-password" />
+        <button class="btn" onclick="login()">Sign In</button>
+      </div>
+
+      <div id="auth-register" style="display:none">
+        <input type="text" id="reg-username" placeholder="Username" autocomplete="username" />
+        <input type="email" id="reg-email" placeholder="Email" autocomplete="email" />
+        <input type="password" id="reg-password" placeholder="Password" autocomplete="new-password" />
+        <button class="btn" onclick="register()">Create Account</button>
+      </div>
+
+      <div class="error" id="auth-error"></div>
+      <div class="switch">
+        <span id="auth-mode" onclick="toggleAuthMode()">Register</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== APP SHELL ===== -->
+<div id="app-shell" style="display:none">
+  <nav>
+    <span class="brand">⌨️ TRL</span>
+    <a href="#" data-page="practice" class="active" onclick="navigate('practice')">Practice</a>
+    <a href="#" data-page="dashboard" onclick="navigate('dashboard')">Dashboard</a>
+    <a href="#" data-page="leaderboard" onclick="navigate('leaderboard')">Leaderboard</a>
+    <span class="spacer"></span>
+    <span class="user-info" id="nav-user"></span>
+    <button onclick="logout()">Logout</button>
+  </nav>
+
+  <!-- Practice -->
+  <div id="page-practice" class="page active">
+    <h1>Typing Practice</h1>
+    <p class="desc">Type the quote below as fast and accurately as you can</p>
+
+    <div class="practice-header">
+      <div class="wpm-big" id="practice-wpm">0</div>
+      <div class="stats-row">
+        <span>Accuracy: <strong id="practice-accuracy">100%</strong></span>
+        <span>Time: <strong id="practice-timer">0s</strong></span>
+      </div>
+    </div>
+
+    <div class="quote-box" id="quote-display"></div>
+
+    <textarea id="practice-input" rows="2" placeholder="Start typing here..." oninput="handlePracticeInput(event)"></textarea>
+
+    <div class="practice-controls">
+      <button class="btn secondary" onclick="loadPractice()">New Quote</button>
+    </div>
+  </div>
+
+  <!-- Dashboard -->
+  <div id="page-dashboard" class="page">
+    <h1>Dashboard</h1>
+    <p class="desc">Welcome back, <strong id="dash-username"></strong></p>
+
+    <div class="dashboard-grid">
+      <div class="stat-card">
+        <h3>All-Time Avg WPM</h3>
+        <div class="value" id="dash-avg-wpm">0</div>
+      </div>
+      <div class="stat-card">
+        <h3>Top WPM</h3>
+        <div class="value green" id="dash-top-wpm">0</div>
+      </div>
+      <div class="stat-card">
+        <h3>Matches Played</h3>
+        <div class="value" id="dash-matches">0</div>
+      </div>
+      <div class="stat-card">
+        <h3>Total XP</h3>
+        <div class="value purple" id="dash-xp">0</div>
+      </div>
+      <div class="stat-card">
+        <h3>Today's WPM</h3>
+        <div class="value" id="dash-today-wpm">0</div>
+      </div>
+      <div class="stat-card">
+        <h3>Today's Accuracy</h3>
+        <div class="value green" id="dash-today-acc">0%</div>
+      </div>
+      <div class="stat-card">
+        <h3>Today's Races</h3>
+        <div class="value" id="dash-today-races">0</div>
+      </div>
+      <div class="stat-card">
+        <h3>Level</h3>
+        <div class="value purple" id="dash-level">1</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Leaderboard -->
+  <div id="page-leaderboard" class="page">
+    <h1>Leaderboard</h1>
+    <p class="desc">Top typists ranked by WPM</p>
+
+    <div class="tabs">
+      <button class="tab active" data-period="daily" onclick="switchLeaderboard(this, 'daily')">Today</button>
+      <button class="tab" data-period="alltime" onclick="switchLeaderboard(this, 'alltime')">All Time</button>
+    </div>
+
+    <table class="leaderboard-table">
+      <thead>
+        <tr>
+          <th>Rank</th>
+          <th>User</th>
+          <th>WPM</th>
+          <th>Accuracy</th>
+          <th>Races</th>
+        </tr>
+      </thead>
+      <tbody id="leaderboard-body">
+        <tr><td colspan="5" class="loading">Loading...</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Results Overlay -->
+<div class="results-overlay" id="results-overlay">
+  <div class="results-card">
+    <h2>Race Complete!</h2>
+    <div class="result-grid">
+      <div class="result-item">
+        <div class="label">WPM</div>
+        <div class="value" id="result-wpm">0</div>
+      </div>
+      <div class="result-item">
+        <div class="label">Accuracy</div>
+        <div class="value" id="result-accuracy">0%</div>
+      </div>
+      <div class="result-item">
+        <div class="label">Time</div>
+        <div class="value" id="result-time">0s</div>
+      </div>
+      <div class="result-item">
+        <div class="label">Errors</div>
+        <div class="value" id="result-errors">0</div>
+      </div>
+    </div>
+    <button class="btn" onclick="newPractice()">Try Again</button>
+  </div>
+</div>
+
+<!-- Scripts -->
+<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+<script src="js/supabase.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/practice.js"></script>
+<script src="js/dashboard.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
